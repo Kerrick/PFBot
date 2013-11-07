@@ -11,6 +11,7 @@ We then import this configuration, along with npm modules and `json` files.
 
     require 'coffee-script' # So we can directly require coffeescript files
     CONFIG   = require './config'
+    LISTEN   = require './listen'
     PACKAGE  = require './package'
     Streamer = require './streamer'
     Reddit   = require 'reddit-api'
@@ -66,7 +67,8 @@ Courtesy of [Reddit Analytics](http://www.redditanalytics.com), we monitor all
 the comments that are posted to the subreddits listed in the `listen.json` file
 `subreddits` array.
 
-    url = "http://stream.redditanalytics.com/?subreddit=personalfinance"
+    subreddits = LISTEN.subreddits.map (subreddit) -> subreddit.name
+    url = "http://stream.redditanalytics.com/?subreddit=#{subreddits.join '+'}"
     streamReader = new Streamer url
     streamReader.init()
 
