@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "reddit-api": "0.0.24",
-    "coffee-script": "~1.6.3"
+    "coffee-script": "~1.6.3",
+    "lodash": "~2.2.1"
   }
 }

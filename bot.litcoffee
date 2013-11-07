@@ -15,6 +15,7 @@ We then import this configuration, along with npm modules and `json` files.
     PACKAGE  = require './package'
     Streamer = require './streamer'
     Reddit   = require 'reddit-api'
+    _        = require 'lodash'
 
 ## Reddit Bot
 
