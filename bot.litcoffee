@@ -1,3 +1,5 @@
+# Setup
+
 You should create a `config.json` file that contains the following keys:
 
 - `username`: The username of the bot's account.
@@ -5,12 +7,15 @@ You should create a `config.json` file that contains the following keys:
 - `author`: Your reddit username. This is put into the user agent string when
   communicating with the reddit API.
 
-We then import this configuration, along with `package.json` and the npm module
-[reddit-api](https://github.com/cha0s/reddit-api) that helps us talk to reddit.
+We then import this configuration, along with npm modules and `json` files.
 
-    CONFIG  = require './config'
-    PACKAGE = require './package'
-    Reddit  = require 'reddit-api'
+    require 'coffee-script' # So we can directly require coffeescript files
+    CONFIG   = require './config'
+    PACKAGE  = require './package'
+    Streamer = require './streamer'
+    Reddit   = require 'reddit-api'
+
+## Reddit Bot
 
 Next, we set up the bot with a user agent string in accordance with the [reddit
 API rules](https://github.com/reddit/reddit/wiki/API#rules).
@@ -42,4 +47,26 @@ Once the queue has been drained, set the dispatch mode to immediate to quit.
 
     reddit.on 'drain', ->
       reddit.setDispatchMode 'immediate'
+
+## Reddit Stream
+
+When we get a comment, we'll simply log it for now.
+
+    Streamer::handleChunk = (comment) ->
+      console.log """
+        Author: /u/#{comment.author}
+        Subreddit: /r/#{comment.subreddit}
+        Thread: "#{comment.link_title}"
+        Content:
+        #{comment.body}
+        #{new Array(80).join '-'}
+      """
+
+Courtesy of [Reddit Analytics](http://www.redditanalytics.com), we monitor all
+the comments that are posted to the subreddits listed in the `listen.json` file
+`subreddits` array.
+
+    url = "http://stream.redditanalytics.com/?subreddit=personalfinance"
+    streamReader = new Streamer url
+    streamReader.init()
 

@@ -16,6 +16,7 @@
     "url": "https://github.com/Kerrick/PFBot/issues"
   },
   "dependencies": {
-    "reddit-api": "0.0.24"
+    "reddit-api": "0.0.24",
+    "coffee-script": "~1.6.3"
   }
 }
