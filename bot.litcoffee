@@ -15,7 +15,7 @@ We then import this configuration, along with npm modules and `json` files.
     CONFIG   = require './config'
     LISTEN   = require './listen'
     PACKAGE  = require './package'
-    Streamer = require './streamer'
+    Scraper  = require './scraper'
     Reddit   = require 'reddit-api'
     _        = require 'lodash'
 
@@ -41,14 +41,14 @@ the comments that are posted to the subreddits listed in the `listen.json` file
 `subreddits` array.
 
     subreddits = LISTEN.subreddits.map (subreddit) -> subreddit.name
-    url = "http://stream.redditanalytics.com/?subreddit=#{subreddits.join '+'}"
-    streamer = new Streamer url
+    url = "http://www.reddit.com/r/#{subreddits.join '+'}/comments.json"
+    scraper = new Scraper url
 
 # Comment Scraping
 
 When we get a comment, we'll simply log it for now. _TODO_
 
-    Streamer::handleChunk = (comment) ->
+    Scraper::handleChunk = (comment) ->
       console.log """
         Author: /u/#{comment.author}
         Subreddit: /r/#{comment.subreddit}
@@ -58,9 +58,9 @@ When we get a comment, we'll simply log it for now. _TODO_
         #{new Array(80).join '-'}
       """
 
-Finally, we initialize the `streamer` so it can do its thing.
+Finally, we initialize the `scraper` so it can do its thing.
 
-    streamer.init()
+    scraper.init()
 
 # Weekly Thread Posting
 
