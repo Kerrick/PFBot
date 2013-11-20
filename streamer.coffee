@@ -1,16 +1,22 @@
 http = require 'http'
 
 module.exports = class Streamer
-  constructor: (@url, @chunkSeparator='\n') ->
+  constructor: (@url, @logging = yes, @chunkSeparator = '\n') ->
+
+  # Create standardized things for logs.
+  _timestamp: -> "[#{new Date().toISOString()}]"
+  _line: (character = '-', length = 80) -> new Array(length).join character
 
   # Store the stream content in a string.
   content: ''
 
   # Make the request and listen to its events.
   init: (reinitializing = no) ->
+    word = if reinitializing then "Reinitializing" else "Initializing"
     console.log """
-      Initializing #{@constructor.name} for #{@url}"
-      #{new Array(80).join '='}
+      #{@_line '='}
+      #{@_timestamp()} #{word} #{@constructor.name}
+      #{@_line '='}
     """ unless reinitializing
     request = http.get @url, (response) =>
       @_listenTo response, event for event in ['data', 'end']
@@ -23,9 +29,9 @@ module.exports = class Streamer
   # On error, log and re-initialize.
   error: (error) ->
     console.log """
-      #{new Array(80).join '#'}
-      Got error: #{error.message}"
-      #{new Array(80).join '#'}
+      #{@_line '#'}
+      #{@_timestamp()} Got error: #{error.message}
+      #{@_line '#'}
     """
     @init yes
 
