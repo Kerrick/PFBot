@@ -25,6 +25,41 @@ module.exports =
       value: 'FAQ!'
       triggers: [2000]
       responses: [4001]
+    ,
+      id: 3003
+      value: 'Where should you start?'
+      triggers: [2000]
+      responses: [4002]
+    ,
+      id: 3004
+      value: 'Where should I start?'
+      triggers: [2000]
+      responses: [4002]
+    ,
+      id: 3005
+      value: 'WTF?'
+      triggers: [2000]
+      responses: [4003]
+    ,
+      id: 3006
+      value: 'Thanks'
+      triggers: [2000]
+      responses: [4004]
+    ,
+      id: 3007
+      value: 'Thank you'
+      triggers: [2000]
+      responses: [4004]
+    ,
+      id: 3008
+      value: 'What do you do with a windfall?'
+      triggers: [2000]
+      responses: [4005]
+    ,
+      id: 3009
+      value: 'What do I do with a windfall?'
+      triggers: [2000]
+      responses: [4005]
   ]
   responses: [
       id: 4000
@@ -69,5 +104,34 @@ module.exports =
       id: 4001
       commands: [3002]
       value: '/r/personalfinance/wiki/faq'
+    ,
+      id: 4002
+      commands: [3003, 3004]
+      value: 'http://www.bogleheads.org/wiki/Getting_Started'
+    ,
+      id: 4003
+      commands: [3005]
+      value: '''
+        Hello, my name is /u/PFBot. I was created by /u/KerrickLong to help the
+        /r/PersonalFinance community. To learn more about me, including my
+        commands, please visit /r/PFBot/wiki/faq.
+      '''
+    ,
+      id: 4004
+      commands: [3006, 3007]
+      value: '\tUncaught ThanksError: Could not accept gratitude, not a human.'
+    ,
+      id: 4005
+      commands: [3008, 3009]
+      value: '''
+      First, **tell nobody** (except your spouse, and maybe your CPA /
+      accountant / financial planner) until you've got a plan.
+
+      From the sidebar: ["I have $[X]... What do I do with
+      it?!"](http://lazytraders.com/insights/starting-out-i-have-x-dollars-what-should-i-invest-in/)
+
+      From the Bogleheads Wiki:
+      [Windfalls](http://www.bogleheads.org/wiki/Windfalls)
+      '''
   ]
 
