@@ -7,7 +7,7 @@ module.exports =
   triggers: [
       id: 2000
       value: '/u/PFBot!'
-      commands: [3000, 3001]
+      commands: [3000, 3001, 3002, 3003, 3004, 3005, 3006, 3007, 3008, 3009]
       subreddits: [1000]
   ]
   commands: [

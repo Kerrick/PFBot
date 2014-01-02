@@ -36,7 +36,7 @@ Log into the reddit API using values obtained from `config.json`.
 
 ## Reddit Stream
 
-Courtesy of [Reddit Analytics](http://www.redditanalytics.com), we monitor all
+Courtesy of [Reddit's API](http://www.reddit.com/dev/api), we monitor all
 the comments that are posted to the subreddits listed in the `listen.json` file
 `subreddits` array.
 
@@ -44,9 +44,15 @@ the comments that are posted to the subreddits listed in the `listen.json` file
     url = "http://www.reddit.com/r/#{subreddits.join '+'}/comments.json"
     scraper = new Scraper url
 
+## Helper Methods
+
+Lowercase, and remove everything but letters, numbers, and spaces from a string
+
+    scrub = (string) -> string.toLowerCase().replace /[^a-z0-9 ]+/g, ''
+
 # Comment Scraping
 
-When we get a comment, we'll simply log it for now. _TODO_
+Handle a single comment.
 
     Scraper::handleChunk = (comment) ->
       console.log """
@@ -57,6 +63,39 @@ When we get a comment, we'll simply log it for now. _TODO_
         #{comment.body}
         #{new Array(80).join '-'}
       """
+
+Check the comment for any triggers.
+
+      LISTEN.triggers
+        .filter (trigger) ->
+          comment.body.indexOf(trigger.value) isnt -1
+
+Check triggered comments for any commands.
+
+        .forEach (trigger) ->
+          LISTEN.commands
+            .filter (command) ->
+              command.id in trigger.commands and
+              scrub(comment.body).indexOf(scrub(command.value)) isnt -1
+
+Handle commands using its responses.
+
+            .forEach (command) ->
+              LISTEN.responses
+                .filter (response) ->
+                  response.id in command.responses
+
+We'll simply log that we should do something for now. _TODO_
+
+                .forEach (response) ->
+                  console.log """
+                    Matched Trigger: #{trigger.value}
+                    Matched Command: #{command.value}
+                    Response:
+                    #{response.value}
+                    #{new Array(80).join '+'}
+                  """
+
 
 Finally, we initialize the `scraper` so it can do its thing.
 
